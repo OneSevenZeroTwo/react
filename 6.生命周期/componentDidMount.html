@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="demo"></div>
+	</body>
+	<script src="js/react.js"></script>
+	<script src="js/react-dom.js"></script>
+	<script src="js/babel.js"></script>
+	<script src="js/jquery.js"></script>
+	<script type="text/babel">
+		{/*Vue.compoennts*/}
+		var Abc = React.createClass({
+			getInitialState: function() {
+    			return {
+					name:"我不是组件",
+					skill:"PS",
+					news:['加载中']
+				};
+  			},
+			componentDidMount:function(){
+				var self = this;
+				$.ajax({
+					url:"./js/news.json",
+					type:"GET",
+					success:function(data){
+						console.log(data)
+						self.setState({
+							news:data.data
+						})
+						console.log(self.state)
+					}
+				})
+			},
+			render:function(){
+				return (
+					<div>
+						<ul>
+							{
+								this.state.news.map(function(item){
+									return <li>{item}</li>
+								})
+							}
+						</ul>
+					</div>
+				)
+			}
+		})
+		ReactDOM.render(
+			<div>
+				<Abc name="体育" />
+			</div>,
+			document.querySelector("#demo")
+		)
+	</script>
+</html>

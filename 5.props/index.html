@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="demo"></div>
+	</body>
+	<script src="js/react.js"></script>
+	<script src="js/react-dom.js"></script>
+	<script src="js/babel.js"></script>
+	<script type="text/babel">
+		{/*Vue.compoennts*/}
+		var Abc = React.createClass({
+			getInitialState: function() {
+    			return {
+					name:"我不是组件",
+					skill:"PS"
+				};
+  			},
+			test:function(){
+				console.log("abc")
+			},
+			changeText:function(event){
+				console.log(event.target.value)
+				this.setState({
+					name:event.target.value
+				})
+			},
+			render:function(){
+				return (
+					<div>
+						<p>{this.props.name}</p>
+						<input value={this.state.name} onChange={this.changeText} />
+						{this.state.name}
+						<button onClick={this.test}>Ok</button>
+					</div>
+				)
+			}
+		})
+		ReactDOM.render(
+			<div>
+				<Abc name="体育" />
+				<Abc name="社会" />
+			</div>,
+			document.querySelector("#demo")
+		)
+	</script>
+</html>

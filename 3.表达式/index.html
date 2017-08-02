@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="demo"></div>
+	</body>
+	<script src="js/react.js"></script>
+	<script src="js/react-dom.js"></script>
+	<script src="js/babel.js"></script>
+	<script type="text/babel">
+		var name = "laoyao";
+		var css = {
+			fontSize:"50px",
+			color:"red"
+		}
+		var bool = true;
+		var arr = [
+  			<h1>xxx教程</h1>,
+  			<h2>学的不仅是技术，更是梦想！</h2>,
+		];
+		ReactDOM.render(
+			<div>
+				{/*这是一条注释*/}
+				<p style={css} id={name}>{!bool?"你是真的":"你是假的"}</p>
+				{arr}
+			</div>
+			,
+			document.querySelector("#demo")
+		)
+	</script>
+</html>

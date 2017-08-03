@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="demo"></div>
+	</body>
+	<script src="js/react.js"></script>
+	<script src="js/react-dom.js"></script>
+	<script src="js/babel.js"></script>
+	<script src="js/jquery.js"></script>
+	<script type="text/babel">
+		var Turing = React.createClass({
+			getInitialState:function(){
+				return {
+					name:"laoyao",
+					ask:"",
+					answer:""
+				}
+			},
+			getVal:function(e){
+				console.log(e.target.value)
+				this.setState({
+					ask:e.target.value
+				})
+			},
+			askQuestion:function(){
+				$.ajax({
+					url:this.props.src,
+					type:"GET",
+					data:{
+						info:this.state.ask
+					},
+					success:function(data){
+						console.log(data);
+						this.setState({
+							answer:data.text
+						})
+					}.bind(this)
+				})
+			},
+			render:function(){
+				return (
+					<div>
+						<input value={this.state.ask} onChange={this.getVal} onKeyUp={this.askQuestion} />
+						
+						<p>{this.state.answer}</p>
+					</div>
+				)
+			}
+		})
+		ReactDOM.render(
+			<Turing src="http://www.tuling123.com/openapi/api?key=c75ba576f50ddaa5fd2a87615d144ecf" />,
+			document.querySelector("#demo")
+		)
+	</script>
+</html>

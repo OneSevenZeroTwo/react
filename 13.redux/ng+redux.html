@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html ng-app="ngApp">
+	<head>
+    <meta charset="utf-8" />
+		<title>Redux basic example</title>
+    <script></script>
+	</head>
+	<body>
+		<div ng-controller="indexCtrl">
+      <cp1></cp1>
+      <cp2></cp2>
+		</div>
+	</body>
+  <style>
+    #cp1{
+      border: 1px solid red;
+      margin: 10px;
+    }
+
+    #cp2{
+      border: 1px solid blue;
+      margin: 10px;
+    }
+  </style>
+  <script src="js/angular.js"></script>
+  <script src="js/redux.js"></script>
+  <script>
+      // 数据源
+      var store = Redux.createStore(function(state,action){
+        var state = {
+          name:"abc"
+        };
+        switch (action.type) {
+          case "SETNAME":
+          return {
+            name:action.name
+          }
+          break;
+          default:
+          return state
+
+        }
+      })
+      var app = angular.module("ngApp",[]);
+      app.controller("indexCtrl",function(){
+
+      })
+      app.directive("cp1",function(){
+        return {
+          template:`
+            <div id="cp1">
+              <p>这是第一个组件</p>
+              <p>{{name}}</p>
+              <input ng-model="name" />
+              <button ng-click="changeName()">Ok</button>
+            </div>
+          `,
+          link:function(scope,ele,attr){
+            scope.name = "你好";
+            scope.changeName = function(){
+              store.dispatch({
+                type:"SETNAME",
+                name:scope.name
+              })
+            }
+          }
+        }
+      })
+      app.directive("cp2",function(){
+        return {
+          template:`
+            <div id="cp2">
+              <p>这是第二个组件</p>
+              <p>{{name}}</p>
+            </div>
+          `,
+          link:function(scope,ele,attr){
+            scope.name = "laolao";
+            console.log(store.getState())
+            store.subscribe(function(){
+              console.log(store.getState())
+              scope.name = store.getState().name
+            })
+          }
+        }
+      })
+  </script>
+</html>

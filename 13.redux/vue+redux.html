@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+	<head>
+    <meta charset="utf-8" />
+		<title>Redux basic example</title>
+    <script></script>
+	</head>
+	<body>
+		<div id="demo">
+      <cp1></cp1>
+      <cp2></cp2>
+		</div>
+	</body>
+  <style>
+    #cp1{
+      border: 1px solid red;
+      margin: 10px;
+    }
+
+    #cp2{
+      border: 1px solid blue;
+      margin: 10px;
+    }
+  </style>
+  <script src="js/vue2.js"></script>
+  <script src="js/redux.js"></script>
+  <script>
+      // 数据源
+      var store = Redux.createStore(function(state,action){
+        var state = {
+          name:"abc"
+        };
+        switch (action.type) {
+          case "SETNAME":
+          return {
+            name:action.name
+          }
+          break;
+          default:
+          return state
+
+        }
+      })
+			Vue.component("cp1",{
+				data(){
+					return {
+						name:"laolao"
+					}
+				},
+				template:`
+					<div id="cp1">
+						<p>这是第一个组件</p>
+						<p>{{name}}</p>
+						<input v-model="name" />
+						<button @click="changeName()">Ok</button>
+					</div>
+				`,
+				methods:{
+					changeName:function(){
+						var self = this;
+						store.dispatch({
+							type:"SETNAME",
+							name:self.name
+						})
+					}
+				}
+			})
+			Vue.component("cp2",{
+				data(){
+					return {
+						name:"你好"
+					}
+				},
+				template:`
+					<div id="cp2">
+						<p>这是第二个组件</p>
+						<p>{{name}}</p>
+					</div>
+				`,
+				mounted(){
+					console.log(store.getState())
+					var self = this;
+					store.subscribe(function(){
+						console.log(store.getState())
+						self.name = store.getState().name
+					})
+				}
+			})
+			new Vue({
+				el:"#demo"
+			})
+  </script>
+</html>
